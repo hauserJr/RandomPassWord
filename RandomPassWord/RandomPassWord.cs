@@ -33,9 +33,9 @@ public class RandomPassWord
     private static int integer_PassWordMax = 57 + 1;
 
     /// <summary>
-    /// 產生隨機密碼,所有參數皆可不帶,密碼預設為八個字元長度,不需插入符號
+    /// 產生隨機密碼,所有參數皆可不帶,密碼預設為八個字元長度最大可到15個字元,不需插入符號
     /// </summary>
-    /// <param name="PassWordLength">密碼長度,最大只可到15個字元</param>
+    /// <param name="PassWordLength">密碼長度</param>
     /// <param name="MarkFlag">是否需要插入符號 0:不用,1:需要</param>
     /// <returns></returns>
     public string ProducePasswWord(int? PassWordLength = null,int? MarkFlag = null)
