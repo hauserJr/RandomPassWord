@@ -32,13 +32,19 @@ public class RandomPassWord
     private static int integer_PassWordMix = 48;
     private static int integer_PassWordMax = 57 + 1;
 
+    /// <summary>
+    /// 產生隨機密碼,所有參數皆可不帶,密碼預設為八個字元長度,不需插入符號
+    /// </summary>
+    /// <param name="PassWordLength">密碼長度</param>
+    /// <param name="MarkFlag">是否需要插入符號 0:不用,1:需要</param>
+    /// <returns></returns>
     public string ProducePasswWord(int? PassWordLength = null,int? MarkFlag = null)
     {
         //存放ASCII的List每次執行前須Clear以確保沒有任何舊內容
         ASCII_List.Clear();
         //存放結果的String每次執行前須Empty以確保沒有任何舊內容
         ResultPassWord = string.Empty;
-
+        //預設8個字元
         PassWordLength = PassWordLength.HasValue ? PassWordLength : 8;
         for (int i = 0; i < PassWordLength; i++)
         {
@@ -63,14 +69,12 @@ public class RandomPassWord
         {
             ResultPassWord += Convert.ToChar(ASCII_Num);
         }
-
         //密碼產生完畢後,插入符號
         if (MarkFlag == 1)
         {
             ResultPassWord = PassWordMark(ResultPassWord);
         }
         return ResultPassWord;
-
     }
 
     public string PassWordMark(string OldPassWord)
@@ -84,7 +88,7 @@ public class RandomPassWord
             string MarkLength = Convert.ToChar(ASCII_Mark[_Random.Next(0, ASCII_Mark.Length)]).ToString();
             //隨機取得密碼任一位置
             int strPlace = _Random.Next(0, OldPassWord.Length);
-            //移除隨機取得位置的密碼字元,插入的字元皆為特殊符號,建議開頭放@以確保沒有例外
+            //移除隨機位置的密碼字元
             NEWPassWord = OldPassWord.Remove(strPlace, 1).Insert(strPlace, @MarkLength);
             return NEWPassWord;
         }
