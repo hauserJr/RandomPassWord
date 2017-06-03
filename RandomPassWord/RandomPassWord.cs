@@ -35,7 +35,7 @@ public class RandomPassWord
     /// <summary>
     /// 產生隨機密碼,所有參數皆可不帶,密碼預設為八個字元長度,不需插入符號
     /// </summary>
-    /// <param name="PassWordLength">密碼長度</param>
+    /// <param name="PassWordLength">密碼長度,最大只可到15個字元</param>
     /// <param name="MarkFlag">是否需要插入符號 0:不用,1:需要</param>
     /// <returns></returns>
     public string ProducePasswWord(int? PassWordLength = null,int? MarkFlag = null)
@@ -45,7 +45,7 @@ public class RandomPassWord
         //存放結果的String每次執行前須Empty以確保沒有任何舊內容
         ResultPassWord = string.Empty;
         //預設8個字元
-        PassWordLength = PassWordLength.HasValue ? PassWordLength : 8;
+        PassWordLength = PassWordLength.HasValue && PassWordLength <= 15 ? PassWordLength : 8;
         for (int i = 0; i < PassWordLength; i++)
         {
             PassWordType = _Random.Next(PassWordTypeMix, PassWordTypeMax);
