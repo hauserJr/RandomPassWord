@@ -31,12 +31,12 @@ public class RandomPassWord
     private static int integer_PassWordMax = 57 + 1;
 
     /// <summary>
-    /// 產生隨機密碼,所有參數皆可不帶,密碼預設為八個字元長度最大可到15個字元,不需插入符號
+    /// 產生隨機密碼,參數皆可不帶
     /// </summary>
-    /// <param name="PassWordLength">密碼長度</param>
-    /// <param name="MarkFlag">是否需要插入符號 0:不用,1:需要</param>
+    /// <param name="PassWordLength">密碼長度,若無設定預設為八個字元</param>
+    /// <param name="MarkFlag">是否需要插入符號,0=不用,1=需要</param>
     /// <returns></returns>
-    public string ProducePasswWord(int? PassWordLength = null,int? MarkFlag = null)
+    public string ProducePasswWord(int? PassWordLength = null, int? MarkFlag = null)
     {
         //存放ASCII的List每次執行前須Clear以確保沒有任何舊內容
         ASCII_List.Clear();
@@ -63,38 +63,31 @@ public class RandomPassWord
                     break;
             }
         }
-        foreach (int ASCII_Num in ASCII_List)
-        {
-            ResultPassWord += Convert.ToChar(ASCII_Num);
-        }
-        //密碼產生完畢後,插入符號
+
+        //密碼產生完畢,開始插入符號
         if (MarkFlag == 1)
         {
-            ResultPassWord = PassWordMark(ResultPassWord);
+            PassWordMark();
+        }
+        foreach (int charPara in ASCII_List)
+        {
+            ResultPassWord += Convert.ToChar(charPara).ToString();
         }
         return ResultPassWord;
     }
 
-    public string PassWordMark(string OldPassWord)
+    public List<int> PassWordMark()
     {
-        string NEWPassWord = string.Empty;
-        try
-        {
-            //符號ASCII陣列 ~!@#$%^&*()-+<>? 
-            int[] ASCII_Mark = { 126, 33, 64, 35, 36, 37, 94, 38, 42, 40, 41, 45, 43, 60, 62, 63 };
-            //隨機選擇一個符號
-            string MarkLength = Convert.ToChar(ASCII_Mark[_Random.Next(0, ASCII_Mark.Length)]).ToString();
-            //隨機取得密碼任一位置
-            int strPlace = _Random.Next(0, OldPassWord.Length);
-            //移除隨機位置的密碼字元
-            NEWPassWord = OldPassWord.Remove(strPlace, 1).Insert(strPlace, @MarkLength);
-            return NEWPassWord;
-        }
-        catch
-        {
-
-        }
-        return NEWPassWord;
+        //符號ASCII陣列 ~!@#$%^&*()-+<>? 
+        int[] ASCII_Mark = { 126, 33, 64, 35, 36, 37, 94, 38, 42, 40, 41, 45, 43, 60, 62, 63 };
+        //隨機選擇一個符號
+        int MarkLength = ASCII_Mark[_Random.Next(0, ASCII_Mark.Length)];
+        //隨機取得密碼任一位置
+        int strPlace = _Random.Next(0, ASCII_List.Count);
+        //移除指定位置的密碼字元
+        ASCII_List.RemoveAt(strPlace);
+        //插入符號至指定位置
+        ASCII_List.Insert(strPlace, MarkLength);
+        return ASCII_List;
     }
 }
-
