@@ -35,13 +35,21 @@ public class RandomPassWord
     /// </summary>
     /// <param name="PassWordLength">密碼長度,若無設定預設為八個字元</param>
     /// <param name="MarkFlag">是否需要插入符號,0=不用,1=需要</param>
+    /// <param name="IsOnlyNum">是否存數字</param>
     /// <returns></returns>
-    public string ProducePasswWord(int? PassWordLength = null, int? MarkFlag = null)
+    public string ProducePasswWord(int? PassWordLength = null, int? MarkFlag = null, bool? IsOnlyNum = null)
     {
         //存放ASCII的List每次執行前須Clear以確保沒有任何舊內容
         ASCII_List.Clear();
         //存放結果的String每次執行前須Empty以確保沒有任何舊內容
         ResultPassWord = string.Empty;
+
+        if (bool.Parse(IsOnlyNum.ToString()))
+        {
+            PassWordTypeMix = 3;
+            PassWordTypeMax = 3;
+
+        }
         //預設8個字元
         PassWordLength = PassWordLength.HasValue && PassWordLength <= 15 ? PassWordLength : 8;
         for (int i = 0; i < PassWordLength; i++)
@@ -76,7 +84,7 @@ public class RandomPassWord
         return ResultPassWord;
     }
 
-    public List<int> PassWordMark()
+    private List<int> PassWordMark()
     {
         //符號ASCII陣列 ~!@#$%^&*()-+<>? 
         int[] ASCII_Mark = { 126, 33, 64, 35, 36, 37, 94, 38, 42, 40, 41, 45, 43, 60, 62, 63 };
